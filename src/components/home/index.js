@@ -40,7 +40,10 @@ const Home = () => {
   }, []);
   const createTuit = () =>
       service.createTuit(profile._id, {tuit: currentTuit})
-          .then(findTuits)
+          .then(() => {
+            findTuits();
+            setCurrentTuit("");
+          })
   const deleteTuit = (tid) =>
       service.deleteTuit(tid)
           .then(findTuits)
