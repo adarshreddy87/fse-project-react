@@ -8,10 +8,9 @@ import './home.css'
 
 const Home = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const {uid} = useParams();
   const [tuits, setTuits] = useState([]);
-  const [tuit, setTuit] = useState('');
+  const [currentTuit, setCurrentTuit] = useState("");
   const [profile, setProfile] = useState({});
   const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
   const findTuits = () => {
@@ -39,9 +38,9 @@ const Home = () => {
     findTuits()
     return () => {isMounted = false;}
   }, []);
-  // const createTuit = () =>
-  //     service.createTuit(userId, {tuit})
-  //         .then(findTuits)
+  const createTuit = () =>
+      service.createTuit(profile._id, {tuit: currentTuit})
+          .then(findTuits)
   const deleteTuit = (tid) =>
       service.deleteTuit(tid)
           .then(findTuits)
@@ -60,12 +59,19 @@ const Home = () => {
                 : <img src={`../images/react.png`}
                        className="profile-avatar-pic rounded-circle"/>
           }
-          <input className="create-tuit-input" placeholder="What's on your mind?"/>
+          <input className="create-tuit-input"
+                 placeholder="What's on your mind?"
+                 value={currentTuit}
+                 onChange={event => setCurrentTuit(event.target.value)}
+          />
         </div>
         <div>
-          <button className="btn btn-primary rounded-pill tuit-button-home align-button-right">Tuit</button>
+          <button className="btn btn-primary rounded-pill tuit-button-home align-button-right" onClick={createTuit}>
+            Tuit
+          </button>
         </div>
       </div>
+      <br/>
       <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findTuits}/>
     </div>
   );

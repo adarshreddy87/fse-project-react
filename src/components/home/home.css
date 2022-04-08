@@ -38,3 +38,7 @@
 .align-button-right {
     float: right;
 }
+
+.thick-bottom-border {
+    border-bottom-width: thick;
+}
