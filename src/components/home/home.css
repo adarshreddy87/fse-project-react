@@ -8,3 +8,33 @@
     flex-wrap: wrap;
     width: 100%;
 }
+
+.col-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-avatar-pic {
+    width: 48px;
+    margin-left: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.create-tuit-input {
+    flex-grow: 1;
+    margin: 10px;
+    border: none;
+}
+
+.tuit-button-home {
+    width: 80px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.align-button-right {
+    float: right;
+}

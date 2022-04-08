@@ -13,6 +13,7 @@ const Home = () => {
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
   const [profile, setProfile] = useState({});
+  const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
   const findTuits = () => {
     if(uid) {
       return service.findTuitsByUser(uid)
@@ -51,8 +52,19 @@ const Home = () => {
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
       </div>
-      <div className="border negative-top-margin row-container">
-        <h4 className="fw-bold p-2">Home Screen</h4>
+      <div className="border negative-top-margin col-container">
+        <div className="row-container">
+          {
+            usersWithPictures.includes(profile.username) ?
+                <img src={`../images/${profile.username}.jpg`} className="rounded-circle ttr-tuit-avatar-logo"/>
+                : <img src={`../images/react.png`}
+                       className="profile-avatar-pic rounded-circle"/>
+          }
+          <input className="create-tuit-input" placeholder="What's on your mind?"/>
+        </div>
+        <div>
+          <button className="btn btn-primary rounded-pill tuit-button-home align-button-right">Tuit</button>
+        </div>
       </div>
       <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findTuits}/>
     </div>
