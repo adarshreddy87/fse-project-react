@@ -4,10 +4,12 @@ import TuitImage from "./tuit-image";
 import TuitVideo from "./tuit-video";
 import * as likesService from '../../services/likes-service'
 import * as dislikesService from '../../services/dislikes-service'
+import * as bookmarksService from '../../services/bookmarks-service'
 
-const Tuit = ({tuit, deleteTuit, likeTuit, dislikeTuit}) => {
+const Tuit = ({tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit}) => {
     const [userLikedTuit, setUserLikedTuit] = useState(false);
     const [userDislikedTuit, setUserDislikedTuit] = useState(false);
+    const [userBookmarkedTuit, setUserBookmarkedTuit] = useState(false);
     const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
     useEffect(() => {
         if (tuit) {
@@ -25,6 +27,16 @@ const Tuit = ({tuit, deleteTuit, likeTuit, dislikeTuit}) => {
                 .then(response => {
                     if (response) {
                         setUserDislikedTuit(true);
+                    }
+                });
+        }
+    }, [])
+    useEffect(() => {
+        if (tuit) {
+            bookmarksService.findUserBookmarkedTuit("me", tuit._id)
+                .then(response => {
+                    if (response) {
+                        setUserBookmarkedTuit(true);
                     }
                 });
         }
@@ -59,8 +71,10 @@ const Tuit = ({tuit, deleteTuit, likeTuit, dislikeTuit}) => {
         <TuitStats tuit={tuit}
                    likeTuit={likeTuit}
                    dislikeTuit={dislikeTuit}
+                   bookmarkTuit={bookmarkTuit}
                    userLikedTuit={userLikedTuit}
                    userDislikedTuit={userDislikedTuit}
+                   userBookmarkedTuit={userBookmarkedTuit}
         />
       </div>
     </li>
