@@ -3,15 +3,18 @@ import {React, useState, useEffect} from "react";
 const TuitStats = ({tuit,
                        likeTuit = () => {},
                        dislikeTuit = () => {},
-                       userLikedTuit, userDislikedTuit}) =>
+                       bookmarkTuit = () => {},
+                       userLikedTuit, userDislikedTuit, userBookmarkedTuit}) =>
 {
     // Use local state variables to update like/dislike icons and stats instantly
     const [liked, setLiked] = useState(userLikedTuit);
     const [disliked, setDisliked] = useState(userDislikedTuit)
+    const [bookmarked, setBookmarked] = useState(false);
     useEffect(() => {
         setLiked(userLikedTuit);
         setDisliked(userDislikedTuit);
-    }, [userLikedTuit, userDislikedTuit])
+        setBookmarked(userBookmarkedTuit);
+    }, [userLikedTuit, userDislikedTuit, userBookmarkedTuit])
     return (
         <div className="row mt-2">
             <div className="col">
@@ -59,7 +62,20 @@ const TuitStats = ({tuit,
                 </span>
             </div>
             <div className="col">
-                <i className="far fa-inbox-out"></i>
+                <span>
+                    <i className="far fa-inbox-out"></i>
+                </span>
+            </div>
+            <div className="col">
+                <span onClick={() => {
+                    bookmarkTuit(tuit)
+                    setBookmarked(!bookmarked)
+                }}>
+                    {
+                        bookmarked ? <i className="fa-solid fa-bookmark"></i>
+                            : <i className="fa-regular fa-bookmark"></i>
+                    }
+                </span>
             </div>
         </div>
     );

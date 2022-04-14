@@ -2,6 +2,7 @@ import React from "react";
 import Tuits from "../tuits";
 import * as service from "../../services/tuits-service";
 import * as authService from '../../services/auth-service';
+import * as bookmarksService from '../../services/bookmarks-service';
 import {useEffect, useState} from "react";
 import {useLocation, useParams, useNavigate} from "react-router-dom";
 import './home.css'
@@ -44,9 +45,13 @@ const Home = () => {
             findTuits();
             setCurrentTuit("");
           })
-  const deleteTuit = (tid) =>
+  const deleteTuit = async (tid) => {
+    await bookmarksService.deleteAllBookmarksOfTuit(tid).then(() => {
       service.deleteTuit(tid)
           .then(findTuits)
+    })
+  }
+
   // refresh tuits needs to be tweaked
   console.log(profile);
   return(
