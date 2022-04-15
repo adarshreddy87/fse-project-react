@@ -6,6 +6,7 @@ import * as likesService from '../../services/likes-service'
 import * as dislikesService from '../../services/dislikes-service'
 import * as bookmarksService from '../../services/bookmarks-service'
 import * as userService from "../../services/users-service";
+import * as authService from '../../services/auth-service.js';
 
 
 const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
@@ -13,6 +14,7 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
   const [userDislikedTuit, setUserDislikedTuit] = useState(false);
   const [userBookmarkedTuit, setUserBookmarkedTuit] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userLogged, setUserLogged] = useState("");
   const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
           }
         });
     }
-  }, [])
+  }, [tuit])
 
   useEffect(() => {
     if (tuit) {
@@ -35,7 +37,7 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
           }
         });
     }
-  }, [])
+  }, [tuit])
 
   useEffect(() => {
     if (tuit) {
@@ -46,25 +48,44 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
           }
         });
     }
-  }, [])
+  }, [tuit])
+
+  // Get currently logged in user
+  useEffect(() => {
+    async function getUserProfile() {
+      try {
+        const currentProfile = await authService.profile();
+        const loggedUsername = currentProfile.username;
+        setUserLogged(loggedUsername);
+      } catch (e) {
+        console.log(e);
+      };
+    }
+    getUserProfile();
+  }, []);
 
 
+  // Get tuit author
   useEffect(() => {
     if (tuit.postedBy.username) {
       setUserName(tuit.postedBy.username);
     } else {
-
       userService.findUserById(tuit.postedBy).then(res => {
         if (res) {
-          console.log(res);
           setUserName(res.username);
         }
       });
     }
-  }, [])
+  }, [tuit.postedBy])
 
 
-  // console.log(tuit);
+  function RenderDelete() {
+    if (userLogged == tuit.postedBy.username) {
+      return <i onClick={() => deleteTuit(tuit._id)} className="fas fa-remove fa-2x fa-pull-right"></i>
+
+    } else { return <i className="ttr-delete-button-disabled fas fa-remove fa-2x fa-pull-right"></i> };
+  };
+
   return (
     <li className="p-2 ttr-tuit list-group-item d-flex rounded-0">
       <div className="pe-2">
@@ -78,7 +99,7 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
         }
       </div>
       <div className="w-100">
-        <i onClick={() => deleteTuit(tuit._id)} className="fas fa-remove fa-2x fa-pull-right"></i>
+        <RenderDelete />
         <h2
           className="fs-5">
           {userName}@{userName}</h2>
