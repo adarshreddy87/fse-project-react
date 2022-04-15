@@ -1,7 +1,7 @@
 import Tuits from "../tuits";
 import * as service from "../../services/dislikes-service"
-import {useEffect, useState} from "react"
-import {Link} from 'react-router-dom'
+import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
 
 const MyDislikes = () => {
     const [dislikedTuits, setDislikedTuits] = useState([]);
@@ -13,11 +13,11 @@ const MyDislikes = () => {
     return (
         <div>
             <h3>My Dislikes</h3>
-            <Link to="/profile" classname='nav-link active'>
+            <Link to="/profile" className='nav-link active'>
                 Back to profile
             </Link>
-            <br/>
-            <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike}/>
+            <br />
+            <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike} />
         </div>
     )
 }
