@@ -1,7 +1,7 @@
 import Tuits from "../tuits";
 import * as service from "../../services/likes-service";
-import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const MyLikes = () => {
     const [likedTuits, setLikedTuis] = useState([]);
@@ -10,15 +10,15 @@ const MyLikes = () => {
             .then((tuits) => setLikedTuis(tuits));
     useEffect(findTuitsILike, []);
 
-    return(
+    return (
         <div>
             <h3>My Likes</h3>
-            <Link to="/profile" classname='nav-link active'>
+            <Link to="/profile" className='nav-link active'>
                 Back to profile
             </Link>
-            <br/>
+            <br />
             <Tuits tuits={likedTuits}
-                   refreshTuits={findTuitsILike}/>
+                refreshTuits={findTuitsILike} />
         </div>
     );
 };

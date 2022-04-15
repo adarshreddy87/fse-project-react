@@ -3,58 +3,65 @@ import Tuits from "../tuits";
 import * as service from "../../services/tuits-service";
 import * as authService from '../../services/auth-service';
 import * as bookmarksService from '../../services/bookmarks-service';
-import {useEffect, useState} from "react";
-import {useLocation, useParams, useNavigate} from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import './home.css'
+
 
 const Home = () => {
   const navigate = useNavigate();
-  const {uid} = useParams();
+  const { uid } = useParams();
   const [tuits, setTuits] = useState([]);
   const [currentTuit, setCurrentTuit] = useState("");
   const [profile, setProfile] = useState({});
   const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
-  const findTuits = () => {
-    if(uid) {
+
+  const findTuits = useCallback(() => {
+    if (uid) {
       return service.findTuitsByUser(uid)
         .then(tuits => setTuits(tuits))
     } else {
       return service.findAllTuits()
         .then(tuits => setTuits(tuits))
-    }
-  }
+    };
+  }, [uid]);
 
   // A user must be logged in to see the home screen
-  useEffect(async () => {
-    try {
-      const loggedInUser = await authService.profile();
-      setProfile(loggedInUser);
-    } catch (e) {
-      navigate('/login');
+  useEffect(() => {
+    async function getUserProfile() {
+      try {
+        const loggedInUser = await authService.profile();
+        setProfile(loggedInUser);
+      } catch (e) {
+        navigate('/login');
+      };
     }
-  }, [])
+    getUserProfile();
+  }, [navigate]);
 
   useEffect(() => {
     let isMounted = true;
     findTuits()
-    return () => {isMounted = false;}
-  }, []);
+    return () => { isMounted = false; }
+  }, [findTuits]);
+
   const createTuit = () =>
-      service.createTuit(profile._id, {tuit: currentTuit})
-          .then(() => {
-            findTuits();
-            setCurrentTuit("");
-          })
+    service.createTuit(profile._id, { tuit: currentTuit })
+      .then(() => {
+        findTuits();
+        setCurrentTuit("");
+      })
+
   const deleteTuit = async (tid) => {
     await bookmarksService.deleteAllBookmarksOfTuit(tid).then(() => {
       service.deleteTuit(tid)
-          .then(findTuits)
+        .then(findTuits)
     })
   }
 
+
   // refresh tuits needs to be tweaked
-  console.log(profile);
-  return(
+  return (
     <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
@@ -63,14 +70,14 @@ const Home = () => {
         <div className="row-container">
           {
             usersWithPictures.includes(profile.username) ?
-                <img src={`../images/${profile.username}.jpg`} className="rounded-circle ttr-tuit-avatar-logo"/>
-                : <img src={`../images/react.png`}
-                       className="profile-avatar-pic rounded-circle"/>
+              <img src={`../images/${profile.username}.jpg`} className="rounded-circle ttr-tuit-avatar-logo" />
+              : <img src={`../images/react.png`}
+                className="profile-avatar-pic rounded-circle" />
           }
           <input className="create-tuit-input"
-                 placeholder="What's on your mind?"
-                 value={currentTuit}
-                 onChange={event => setCurrentTuit(event.target.value)}
+            placeholder="What's on your mind?"
+            value={currentTuit}
+            onChange={event => setCurrentTuit(event.target.value)}
           />
         </div>
         <div>
@@ -79,8 +86,8 @@ const Home = () => {
           </button>
         </div>
       </div>
-      <br/>
-      <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findTuits}/>
+      <br />
+      <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findTuits} />
     </div>
   );
 };

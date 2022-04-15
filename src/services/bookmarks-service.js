@@ -18,3 +18,7 @@ export const userTogglesBookmark = (uid, tid) =>
 export const deleteAllBookmarksOfTuit = tid =>
     api.delete(`${BASE_URL}/api/tuits/${tid}/bookmarks`)
         .then(response => response.data);
+
+export const findAllTuitsBookmarkedByUser = uid =>
+    api.get(`${BASE_URL}/api/users/${uid}/bookmarks`)
+        .then(response => response.data);
