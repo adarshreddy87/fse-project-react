@@ -11,3 +11,7 @@
     content: "";
     padding-top: 56.25%;
 }
+
+.ttr-delete-button-disabled {
+    color:lightgray;
+}
