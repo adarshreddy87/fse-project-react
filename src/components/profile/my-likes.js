@@ -10,16 +10,15 @@ const MyLikes = () => {
             .then((tuits) => setLikedTuis(tuits));
     useEffect(findTuitsILike, []);
 
+    if (!likedTuits.length) {
+        return (
+            <h5>You haven't liked any Tuits yet!</h5>
+        )
+    }
+
     return (
-        <div>
-            <h3>My Likes</h3>
-            <Link to="/profile" className='nav-link active'>
-                Back to profile
-            </Link>
-            <br />
-            <Tuits tuits={likedTuits}
-                refreshTuits={findTuitsILike} />
-        </div>
+        <Tuits tuits={likedTuits}
+            refreshTuits={findTuitsILike} />
     );
 };
 export default MyLikes;

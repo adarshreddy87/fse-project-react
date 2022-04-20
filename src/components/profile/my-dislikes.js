@@ -10,15 +10,13 @@ const MyDislikes = () => {
             .then(tuits => setDislikedTuits(tuits));
     useEffect(findTuitsIDislike, []);
 
+    if (!dislikedTuits.length) {
+        return (
+            <h5>You haven't disliked any Tuits yet!</h5>
+        )
+    }
     return (
-        <div>
-            <h3>My Dislikes</h3>
-            <Link to="/profile" className='nav-link active'>
-                Back to profile
-            </Link>
-            <br />
-            <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike} />
-        </div>
+        <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike} />
     )
 }
 
