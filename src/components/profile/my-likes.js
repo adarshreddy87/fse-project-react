@@ -10,6 +10,12 @@ const MyLikes = () => {
             .then((tuits) => setLikedTuis(tuits));
     useEffect(findTuitsILike, []);
 
+    if (!likedTuits.length) {
+        return (
+            <h5>You haven't liked any Tuits yet!</h5>
+        )
+    }
+
     return (
         <Tuits tuits={likedTuits}
             refreshTuits={findTuitsILike} />
