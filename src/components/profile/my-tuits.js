@@ -23,16 +23,9 @@ const MyTuits = () => {
         )
     }
     return (
-        <div>
-            <h3>My Tuits</h3>
-            <Link to="/profile" className='nav-link active'>
-                Back to profile
-            </Link>
-            <br />
-            <Tuits tuits={tuits}
-                deleteTuit={deleteTuit}
-            />
-        </div>
+        <Tuits tuits={tuits}
+            deleteTuit={deleteTuit}
+        />
     );
 };
 

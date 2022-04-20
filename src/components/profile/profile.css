@@ -1,0 +1,46 @@
+.rounded-corners {
+    border-radius: 15px;
+}
+
+.profile-page-pic {
+    width: 140px;
+    margin-top: 20px;
+}
+
+.profile-page-header {
+    display: flex;
+}
+
+.profile-page-details {
+    margin-left: 20px;
+    margin-top: 40px;
+}
+
+.profile-page-options {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    align-items: flex-end;
+}
+
+.fake-button {
+    background: none;
+    border: none;
+    color: gray;
+}
+
+.details-padding {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.tab-item {
+    color: gray;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-item-selected {
+    border-bottom: solid;
+    border-bottom-color: #0d6efd;
+}

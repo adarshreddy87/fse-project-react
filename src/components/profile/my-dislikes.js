@@ -11,14 +11,7 @@ const MyDislikes = () => {
     useEffect(findTuitsIDislike, []);
 
     return (
-        <div>
-            <h3>My Dislikes</h3>
-            <Link to="/profile" className='nav-link active'>
-                Back to profile
-            </Link>
-            <br />
-            <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike} />
-        </div>
+        <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike} />
     )
 }
 

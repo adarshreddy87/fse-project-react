@@ -11,15 +11,8 @@ const MyLikes = () => {
     useEffect(findTuitsILike, []);
 
     return (
-        <div>
-            <h3>My Likes</h3>
-            <Link to="/profile" className='nav-link active'>
-                Back to profile
-            </Link>
-            <br />
-            <Tuits tuits={likedTuits}
-                refreshTuits={findTuitsILike} />
-        </div>
+        <Tuits tuits={likedTuits}
+            refreshTuits={findTuitsILike} />
     );
 };
 export default MyLikes;
