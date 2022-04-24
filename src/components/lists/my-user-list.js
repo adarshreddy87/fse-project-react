@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import * as listService from "../../services/lists-service";
 
-const MyUserList = ({deleteUser}) => {
+const MyUserList = () => {
     const [users, setUsers] = useState([]);
     const allUsersInList = () =>
         listService.getAllUsersInList("me")
@@ -10,7 +10,6 @@ const MyUserList = ({deleteUser}) => {
     useEffect(allUsersInList,[]);
     const removeUser = (userId) =>
         listService.removeUserFromList("me", userId).then(allUsersInList)
-
     return (
         <div>
             <Link to="/lists" classname='nav-link active'>
