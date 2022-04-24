@@ -7,9 +7,9 @@ const MyUserList = () => {
     const allUsersInList = () =>
         listService.getAllUsersInList("me")
             .then((users) => setUsers(users));
-    const removeUser = (userId) =>
-        listService.removeUserFromList("me", userId)
     useEffect(allUsersInList,[]);
+    const removeUser = (userId) =>
+        listService.removeUserFromList("me", userId).then(allUsersInList)
     return (
         <div>
             <Link to="/lists" classname='nav-link active'>
@@ -23,16 +23,15 @@ const MyUserList = () => {
                             <Link className="list-group-item"
                                   key={user.addedUser._id}
                                   to={`/home/${user.addedUser._id}`}>
-              <span className="fs-3">
+              <span className="fs-5">
                 {user.addedUser.username}
               </span>
-                                <button onClick={(e) => {
+                                <i onClick={(e) => {
                                     e.stopPropagation()
                                     e.preventDefault()
                                     removeUser(user.addedUser._id)
-                                }} className="btn btn-danger fa-pull-right">
-                                    <i className="fas fa-remove"></i>
-                                </button>
+                                }} className="btn btn-outline-danger fas fa-remove fa-pull-right">
+                                </i>
                             </Link>
                         )
                     })

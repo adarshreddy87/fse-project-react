@@ -7,9 +7,10 @@ const UsersList = () => {
     const allUsersNotInList = () =>
         listService.getAllUsersNotInList("me")
             .then((users) => setUsers(users));
+    useEffect(allUsersNotInList, []);
     const addUserToList = (userId) =>
         listService.addUserToList("me", userId)
-    useEffect(allUsersNotInList,[]);
+            .then(allUsersNotInList)
     return (
         <div>
             <Link to="/lists" classname='nav-link active'>
@@ -23,16 +24,15 @@ const UsersList = () => {
                             <Link className="list-group-item"
                                   key={user._id}
                                   to={`/home/${user._id}`}>
-              <span className="fs-3">
+              <span className="fs-5">
                 {user.username}
               </span>
-                                <button onClick={(e) => {
+                                <i onClick={(e) => {
                                     e.stopPropagation()
                                     e.preventDefault()
                                     addUserToList(user._id)
-                                }} className="btn btn-success fa-pull-right">
-                                    <i className="fas fa-add"></i>
-                                </button>
+                                }} className="btn btn-outline-success fas fa-add fa-pull-right">
+                                </i>
                             </Link>
                         )
                     })
