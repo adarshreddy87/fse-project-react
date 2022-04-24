@@ -54,8 +54,7 @@ const Home = () => {
 
   const deleteTuit = async (tid) => {
     await bookmarksService.deleteAllBookmarksOfTuit(tid).then(() => {
-      service.deleteTuit(tid)
-        .then(findTuits)
+      service.deleteTuit(tid).then(findTuits)
     })
   }
 
@@ -70,9 +69,11 @@ const Home = () => {
         <div className="row-container">
           {
             usersWithPictures.includes(profile.username) ?
-              <img src={`../images/${profile.username}.jpg`} className="rounded-circle ttr-tuit-avatar-logo" />
+              <img src={`../images/${profile.username}.jpg`}
+                className="rounded-circle ttr-tuit-avatar-logo"
+                alt="avatar" />
               : <img src={`../images/react.png`}
-                className="profile-avatar-pic rounded-circle" />
+                className="profile-avatar-pic rounded-circle" alt="avatar" />
           }
           <input className="create-tuit-input"
             placeholder="What's on your mind?"

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import * as listService from "../../services/lists-service";
 
 const UsersList = () => {
@@ -13,7 +13,7 @@ const UsersList = () => {
             .then(allUsersNotInList)
     return (
         <div>
-            <Link to="/lists" classname='nav-link active'>
+            <Link to="/lists" className='nav-link active'>
                 Back to List Screen
             </Link>
             <h1>Users</h1>
@@ -22,11 +22,11 @@ const UsersList = () => {
                     users.map(user => {
                         return (
                             <Link className="list-group-item"
-                                  key={user._id}
-                                  to={`/home/${user._id}`}>
-              <span className="fs-5">
-                {user.username}
-              </span>
+                                key={user._id}
+                                to={`/home/${user._id}`}>
+                                <span className="fs-5">
+                                    {user.username}
+                                </span>
                                 <i onClick={(e) => {
                                     e.stopPropagation()
                                     e.preventDefault()
