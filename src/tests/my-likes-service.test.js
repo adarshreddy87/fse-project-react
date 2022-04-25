@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime'
+
 import {
     userTogglesTuitLikes,
     findUserLikesTuit,
@@ -25,18 +27,18 @@ describe('can toggle like on a tuit with REST API', () => {
     const testTuit = {
         tuit: "this is a test tuit"
     }
-    beforeAll(async() => {
+    beforeAll(async () => {
         await deleteUsersByUsername(testUser.username);
         newUser = await createUser(testUser);
         newTuit = await createTuit(newUser._id, testTuit);
     })
 
-    afterAll(async() => {
+    afterAll(async () => {
         await deleteUsersByUsername(testUser.username);
         await deleteTuit(newTuit._id);
     })
 
-    test('can like a tuit not previously liked by the user', async() => {
+    test('can like a tuit not previously liked by the user', async () => {
         // Confirm this tuit has not been liked by the user yet
         let userLikedTuit = await findUserLikesTuit(newUser._id, newTuit._id);
         expect(userLikedTuit).toEqual(null);
@@ -47,7 +49,7 @@ describe('can toggle like on a tuit with REST API', () => {
         expect(userLikedTuit.tuit).toEqual(newTuit._id);
     })
 
-    test('can unlike a tuit previously liked by the user', async() => {
+    test('can unlike a tuit previously liked by the user', async () => {
         // Confirm that the tuit has already been liked by the user
         let userLikedTuit = await findUserLikesTuit(newUser._id, newTuit._id);
         expect(userLikedTuit.tuit).toEqual(newTuit._id);
@@ -76,20 +78,20 @@ describe('can retrieve all tuits a user has liked with REST API', () => {
         tuit: "test tuit 2"
     }
 
-    beforeAll(async() => {
+    beforeAll(async () => {
         await deleteUsersByUsername(testUser.username);
         newUser = await createUser(testUser);
         newTuit1 = await createTuit(newUser._id, testTuit1);
         newTuit2 = await createTuit(newUser._id, testTuit2);
     })
 
-    afterAll(async() => {
+    afterAll(async () => {
         await deleteUsersByUsername(testUser.username);
         await deleteTuit(newTuit1._id);
         await deleteTuit(newTuit2._id);
     })
 
-    test('can find all tuits liked by user', async() => {
+    test('can find all tuits liked by user', async () => {
         likedTuits = await findAllTuitsLikedByUser(newUser._id);
         expect(likedTuits.length).toEqual(0);
         await userTogglesTuitLikes(newUser._id, newTuit1._id);
