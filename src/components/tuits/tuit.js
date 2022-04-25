@@ -17,6 +17,34 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
   const [userLogged, setUserLogged] = useState("");
   const usersWithPictures = ['alice', 'bob', 'chaplin', 'charlie', 'nasa', 'spacex'];
 
+  // Get currently logged in user
+  useEffect(() => {
+    async function getUserProfile() {
+      try {
+        const currentProfile = await authService.profile();
+        const loggedUsername = currentProfile.username;
+        setUserLogged(loggedUsername);
+      } catch (e) {
+        console.log(e);
+      };
+    }
+    getUserProfile();
+  }, []);
+
+
+  // Get tuit author
+  useEffect(() => {
+    if (tuit.postedBy.username) {
+      setUserName(tuit.postedBy.username);
+    } else {
+      userService.findUserById(tuit.postedBy).then(res => {
+        if (res) {
+          setUserName(res.username);
+        }
+      });
+    }
+  }, [tuit.postedBy])
+
   useEffect(() => {
     if (tuit) {
       likesService.findUserLikesTuit("me", tuit._id)
@@ -50,37 +78,9 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
     }
   }, [tuit])
 
-  // Get currently logged in user
-  useEffect(() => {
-    async function getUserProfile() {
-      try {
-        const currentProfile = await authService.profile();
-        const loggedUsername = currentProfile.username;
-        setUserLogged(loggedUsername);
-      } catch (e) {
-        console.log(e);
-      };
-    }
-    getUserProfile();
-  }, []);
-
-
-  // Get tuit author
-  useEffect(() => {
-    if (tuit.postedBy.username) {
-      setUserName(tuit.postedBy.username);
-    } else {
-      userService.findUserById(tuit.postedBy).then(res => {
-        if (res) {
-          setUserName(res.username);
-        }
-      });
-    }
-  }, [tuit.postedBy])
-
 
   function RenderDelete() {
-    if (userLogged == tuit.postedBy.username) {
+    if (userLogged === userName) {
       return <i onClick={() => deleteTuit(tuit._id)} className="fas fa-remove fa-2x fa-pull-right"></i>
 
     } else { return <i className="ttr-delete-button-disabled fas fa-remove fa-2x fa-pull-right"></i> };
@@ -92,10 +92,12 @@ const Tuit = ({ tuit, deleteTuit, likeTuit, dislikeTuit, bookmarkTuit }) => {
         {
           tuit.postedBy && usersWithPictures.includes(tuit.postedBy.username) ?
             <img src={`../images/${tuit.postedBy.username}.jpg`}
-              className="ttr-tuit-avatar-logo rounded-circle" />
+              className="ttr-tuit-avatar-logo rounded-circle"
+              alt="avatar" />
             :
             <img src={`../images/react.png`}
-              className="ttr-tuit-avatar-logo rounded-circle" />
+              className="ttr-tuit-avatar-logo rounded-circle"
+              alt="avatar" />
         }
       </div>
       <div className="w-100">

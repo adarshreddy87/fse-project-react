@@ -9,24 +9,13 @@ import Tuits from "../tuits";
 function Bookmarks() {
   const navigate = useNavigate();
   const [bookmarkedtuits, setBookmarkedtuits] = useState([]);
-  const [profile, setProfile] = useState({});
   const [currentUser, setUser] = useState('');
-
-  // Get the current logged in user's bookmarks
-  const findBookmarks = useCallback(() => {
-    if (currentUser) {
-      return bookmarksService.findAllTuitsBookmarkedByUser(currentUser)
-        .then(bookmarkedtuits => setBookmarkedtuits(bookmarkedtuits))
-    };
-  }, [currentUser]);
-
 
   // A user must be logged in to see the bookmarks screen
   useEffect(() => {
     async function getUserProfile() {
       try {
         const loggedInUser = await authService.profile();
-        setProfile(loggedInUser);
         const uid = loggedInUser._id;
         setUser(uid);
       } catch (e) {
@@ -36,6 +25,13 @@ function Bookmarks() {
     getUserProfile();
   }, [navigate]);
 
+  // Get the current logged in user's bookmarks
+  const findBookmarks = useCallback(() => {
+    if (currentUser) {
+      return bookmarksService.findAllTuitsBookmarkedByUser(currentUser)
+        .then(bookmarkedtuits => setBookmarkedtuits(bookmarkedtuits))
+    };
+  }, [currentUser]);
 
   // Don't get bookmarks on each rendering
   useEffect(() => {
