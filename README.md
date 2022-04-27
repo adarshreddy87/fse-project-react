@@ -1,7 +1,7 @@
 Team members: Adarshreddy Kothireddy (section 1), Suneeth Ravi (section 1), Juan Ong (section 2), Georgian Tutuianu (section 2)
 
 ### Running the project locally
-Pull the most recent code from the `master` branch
+Pull the most recent code from the `master` branch from this repo and the server repo (https://github.com/adarshreddy87/fse-project-node)
 
 The react client can be started by running `npm start`
 
