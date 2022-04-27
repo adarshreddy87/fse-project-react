@@ -11,32 +11,26 @@ const MyUserList = () => {
     const removeUser = (userId) =>
         listService.removeUserFromList("me", userId).then(allUsersInList)
     return (
-        <div>
-            <Link to="/lists" className='nav-link active'>
-                Back to List Screen
-            </Link>
-            <h1>My Users List</h1>
-            <div className="list-group">
-                {
-                    users.map(user => {
-                        return (
-                            <Link className="list-group-item"
-                                key={user.addedUser._id}
-                                to={`/home/${user.addedUser._id}`}>
-                                <span className="fs-5">
-                                    {user.addedUser.username}
-                                </span>
-                                <i onClick={(e) => {
-                                    e.stopPropagation()
-                                    e.preventDefault()
-                                    removeUser(user.addedUser._id)
-                                }} className="btn btn-outline-danger fas fa-remove fa-pull-right">
-                                </i>
-                            </Link>
-                        )
-                    })
-                }
-            </div>
+        <div className="list-group">
+            {
+                users.map(user => {
+                    return (
+                        <Link className="list-group-item"
+                            key={user.addedUser._id}
+                            to={`/home/${user.addedUser._id}`}>
+                            <span className="fs-5">
+                                {user.addedUser.username}
+                            </span>
+                            <i onClick={(e) => {
+                                e.stopPropagation()
+                                e.preventDefault()
+                                removeUser(user.addedUser._id)
+                            }} className="btn btn-outline-danger fas fa-remove fa-pull-right">
+                            </i>
+                        </Link>
+                    )
+                })
+            }
         </div>
     );
 };

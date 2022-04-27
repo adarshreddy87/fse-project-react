@@ -12,17 +12,10 @@ const MyUsersTuits = () => {
     useEffect(allUsersTuitsInList, [])
 
     return (
-        <div>
-            <Link to="/lists" className='nav-link active'>
-                Back to List Screen
-            </Link>
-            <h1>My Users Tuits</h1>
-            <br />
-            {
-                <Tuits tuits={tuits} />
-            }
+        <>
+            <Tuits tuits={tuits} />
+        </>
 
-        </div>
     )
-};
+}
 export default MyUsersTuits;
